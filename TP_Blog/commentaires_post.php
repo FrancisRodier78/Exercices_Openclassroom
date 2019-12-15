@@ -10,9 +10,10 @@ catch(Exception $e)
 }
 
 // Insertion du commentaire à l'aide d'une requête préparée
-$req = $bdd->prepare('INSERT INTO commentaires (id_billet, auteur, commentaire,date_commentaire) VALUES (?, ?, ?, NOW)');
-$req->execute(array($_POST['billet'], $_POST['auteur'], $_POST['commentaire']));
+$req = $bdd->prepare('INSERT INTO commentaires (id_billet, auteur, commentaire,date_commentaire) VALUES (?, ?, ?, NOW())');
+$id_billet = $_POST['billet'];
+$req->execute(array($id_billet, $_POST['auteur'], $_POST['commentaire']));
 
 // Redirection du visiteur vers la page du minichat
-header('Location: commentaires.php?billet='$_POST['billet']);
+header('Location: commentaires.php?billet='.$_POST['billet']);
 ?>

@@ -20,51 +20,45 @@ catch (Exception $e) {
 }
 
 // Lecture du billet
-$req = $bdd->prepare('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets WHERE id = ?');
-$req->execute(array($_GET['billet']));
-$donnees = $req->fetch();
-?>
+if (empty($_GET['billet'])) {
+	echo "Ce billet n'existe pas"; 
+} else {
+	$req = $bdd->prepare('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets WHERE id = ?');
+	$req->execute(array($_GET['billet']));
+	$donnees = $req->fetch();
+	?>
 
-<div class="news">
-	<h3>
-		<?php echo htmlspecialchars($donnees['titre']) ?>
-		<em>le <?php echo htmlspecialchars($donnees['date_creation_fr']); ?></em>
-	</h3>
+	<div class="news">
+	<?php include'affichage_billet.php'; ?>
+	</div>	
 
+	<h2>Commentaires</h2>
+
+	<?php
+	$req->closeCursor(); 
+
+	// Récupérations des commentaires
+	$req = $bdd->prepare('SELECT auteur, commentaire, DATE_FORMAT(date_commentaire, \'%d/%m/%Y à %Hh%imin%ss\') AS date_commentaire_fr FROM commentaires WHERE id_billet = ? ORDER BY date_commentaire DESC LIMIT 0, 5');
+	$req->execute(array($_GET['billet']));
+
+	while ($donnees = $req->fetch()) {
+	?>
+	<p><strong><?php echo nl2br(htmlspecialchars($donnees['auteur'])) ?></strong> le <?php echo $donnees['date_commentaire_fr']; ?></p>
+	<p><?php echo nl2br(htmlspecialchars($donnees['commentaire'])) ?></p>
+	<?php
+	}
+	$req->closeCursor();
+	?>
+
+	<form action="commentaires_post.php" method="post">
 	<p>
-		<?php // On affiche le contenu du billet ?>
-		<?php echo nl2br(htmlspecialchars($donnees['contenu'])); ?>
-		<br />
+		<input id="billet" name="billet" type="hidden" value=<?php echo $_GET['billet'] ?> />
+	    <label for="auteur">Auteur</label> : <input type="text" name="auteur" id="auteur" /><br />
+	    <label for="commentaire">Commentaire</label> :  <input type="text" name="commentaire" id="commentaire" /><br />
+
+	    <input type="submit" value="Envoyer" />
 	</p>
-</div>	
-
-<h2>Commentaires</h2>
-
-<?php
-$req->closeCursor(); 
-
-// Récupérations des commentaires
-$req = $bdd->prepare('SELECT auteur, commentaire, DATE_FORMAT(date_commentaire, \'%d/%m/%Y à %Hh%imin%ss\') AS date_commentaire_fr FROM commentaires WHERE id_billet = ? ORDER BY date_commentaire');
-$req->execute(array($_GET['billet']));
-
-while ($donnees = $req->fetch()) {
-?>
-<p><strong><?php echo nl2br(htmlspecialchars($donnees['auteur'])) ?></strong> le <?php echo $donnees['date_commentaire_fr']; ?></p>
-<p><?php echo nl2br(htmlspecialchars($donnees['commentaire'])) ?></p>
-<?php
-}
-$req->closeCursor();
-?>
-
-<form action="commentaires_post.php" method="post">
-    <p>
-    	<input id="billet" name="billet" type="hidden" value=<?php $_GET['billet'] ?> />
-        <label for="auteur">Auteur</label> : <input type="text" name="auteur" id="auteur" /><br />
-        <label for="commentaire">Commentaire</label> :  <input type="text" name="commentaire" id="commentaire" /><br />
-
-        <input type="submit" value="Envoyer" />
-	</p>
-</form>
-
+	</form>
+<?php } ?>
 </body>
 </html>
