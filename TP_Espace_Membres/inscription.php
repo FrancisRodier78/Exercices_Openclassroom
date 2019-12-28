@@ -36,7 +36,7 @@
 
 		$req->closeCursor();
 
-		if (in_array($pseudo, $data)) {
+		if ($data) {
 		?>
 			<h1>Le pseudo existe déja !!!</h1>
 		    <p><a href="index.php">Retour à la page d'inscription.</a></p>

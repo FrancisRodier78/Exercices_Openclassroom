@@ -26,10 +26,9 @@ if (isset($_GET['numBillet'])) {
 	$numBillet = 0;
 };
 
-//$req = $bdd->prepare('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets ORDER BY date_creation DESC LIMIT ?, 3');
-//$req->execute(array($numBillet));
-$req = $bdd->prepare('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets ORDER BY date_creation DESC LIMIT 0, 3');
-$req->execute();
+$req = $bdd->prepare('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets ORDER BY date_creation DESC LIMIT :debut, 3');
+$req->bindParam(':debut', $numBillet, PDO::PARAM_INT);
+$result = $req->execute();
 
 $nbBilletsAffiche = 0;
 while ($donnees = $req->fetch()) 
@@ -56,10 +55,9 @@ $donnees = $req->fetch();
 $j = 0;
 for ($i=0; $i < $donnees['nb_billets']; $i = $i + $nbBilletsAffiche) { 
 	$j++; ?>
-	<em><a href="index.php?numBillet=<?php echo $numBillet + $i ?>"><?php echo $j ?></a></em>
+	<em><a href="index.php?numBillet=<?php echo $i ?>"><?php echo $j ?></a></em>
 <?php
-}
-$req->closeCursor();
+}$req->closeCursor();
 ?>
 
 	<p>

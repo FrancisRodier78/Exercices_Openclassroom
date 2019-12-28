@@ -36,15 +36,15 @@
 
         $req->closeCursor();
 
-        // Comparaison du pass envoyé via le formulaire avec la base
-        $isPasswordCorrect = password_verify($_POST['pass'], $resultat['pass']);
-
         if (!$resultat) {
         ?>
             <h1>Mauvais identifiant ou mot de passe !!!</h1>
             <p><a href="connexion.php">Retour à la page de connexion.</a></p>
         <?php
         } else {
+            // Comparaison du pass envoyé via le formulaire avec la base
+            $isPasswordCorrect = password_verify($_POST['pass'], $resultat['pass']);
+
             if ($isPasswordCorrect) {
                 $_SESSION['id'] = $resultat['id'];
                 $_SESSION['pseudo'] = $pseudo;
