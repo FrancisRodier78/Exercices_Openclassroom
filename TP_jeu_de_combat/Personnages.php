@@ -1,9 +1,5 @@
 <?php
-<<<<<<< HEAD
 class Personnages
-=======
-class Personnage
->>>>>>> master
 {
 	private $_id,
             $_degats,
@@ -18,13 +14,10 @@ class Personnage
 		$this->hydrate($donnees);
 	}
 
-<<<<<<< HEAD
 	public function nomValide()
 	{
 		return !empty($this->_nom);
 	}
-=======
->>>>>>> master
 
 	// GETTERS //
 	public function getId()
@@ -34,11 +27,7 @@ class Personnage
 
 	public function getDegats()
 	{
-<<<<<<< HEAD
 		return $this->_degats;
-=======
-		return $this->_degats
->>>>>>> master
 	}
 
 	public function getNom()
@@ -63,16 +52,10 @@ class Personnage
 		}
 	}
 
-<<<<<<< HEAD
 	public function frapper(Personnages $perso)
 	{
 		//*//
-		if ($perso->getId() !== $this->_id) {
-=======
-	public function frapper(Personnage £perso)
-	{
-		if ($perso->id() == $this->_id) {
->>>>>>> master
+		if ($perso->getId() == $this->_id) {
 			return self::CEST_MOI;
 		} else {
 			return $perso->recevoirDegats();
@@ -93,13 +76,8 @@ class Personnage
 	{
 		foreach ($donnees as $key => $value) {
 			$method = 'set'.ucfirst($key);
-<<<<<<< HEAD
 			if (method_exists($this, $method)) {
 				$this->$method($value);
-=======
-			if (method_exist($this, $method)) {
-				$this->$method($value)
->>>>>>> master
 			}
 		}
 	}
