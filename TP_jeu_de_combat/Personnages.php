@@ -64,6 +64,15 @@ class Personnages
     }
   
 	// SETTERS //
+    public function setId($id)
+    {
+      $id = (int) $id;
+    
+      if ($id > 0) {
+          $this->_id = $id;
+      }
+    }
+
     public function setAtout($atout)
     {
 	    $atout = (int) $atout;
