@@ -19,6 +19,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 $manager = new PersonnagesManager($db);
 
+var_dump($_SESSION);
 if (isset($_SESSION['perso'])) {
   $perso = $_SESSION['perso'];
 }
@@ -63,6 +64,7 @@ elseif (isset($_GET['frapper'])) {
 			$message = 'Le personnage que vous voulez frapper n\'existe pas !';
 		} else {
 			$persoAFrapper = $manager->get((int) $_GET['frapper']);
+			var_dump($perso);
 			$retour = $perso->frapper($persoAFrapper);
 
 			switch ($retour) {
@@ -71,7 +73,7 @@ elseif (isset($_GET['frapper'])) {
 					break;
 				case Personnages::PERSONNAGE_FRAPPE:
 					$message = 'Le personnage a bien été frappé !';
-					var_dump($perso->getDegats);
+					var_dump($perso->getDegats());
 
 					$manager->update($perso);
 					$manager->update($persoAFrapper);
@@ -210,4 +212,5 @@ if (empty($retourpersos)) {
 if (isset($perso)) {
 	$_SESSION['perso'] = $perso;
 }
+var_dump($perso);
 ?>

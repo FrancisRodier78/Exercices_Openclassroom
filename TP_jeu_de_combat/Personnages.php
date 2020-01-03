@@ -69,7 +69,7 @@ class Personnages
       $id = (int) $id;
     
       if ($id > 0) {
-          $this->_id = $id;
+          $this->id = $id;
       }
     }
 

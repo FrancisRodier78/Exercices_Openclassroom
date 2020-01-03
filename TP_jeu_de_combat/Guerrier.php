@@ -3,22 +3,22 @@ class Guerrier extends Personnages
 {
     public function recevoirDegats()
     {
-      if ($this->degats >= 0 && $this->degats <= 25) {
-        $this->atout = 4;
-      } elseif ($this->degats > 25 && $this->degats <= 50) {
-        $this->atout = 3;
-      } elseif ($this->degats > 50 && $this->degats <= 75) {
-        $this->atout = 2;
-      } elseif ($this->degats > 75 && $this->degats <= 90) {
-        $this->atout = 1;
+      if ($this->getDegats() >= 0 && $this->getDegats() <= 25) {
+        $this->setAtout(4);
+      } elseif ($this->getDegats() > 25 && $this->getDegats() <= 50) {
+        $this->setAtout(3);
+      } elseif ($this->getDegats() > 50 && $this->getDegats() <= 75) {
+        $this->setAtout(2);
+      } elseif ($this->getDegats() > 75 && $this->getDegats() <= 90) {
+        $this->setAtout(1);
       } else {
-        $this->atout = 0;
+        $this->setAtout(0);
       }
       
-      $this->degats += 5 - $this->atout;
+      $this->setDegats($this->getDegats() + 5 - $this->getAtout());
       
       // Si on a 100 de dégâts ou plus, on supprime le personnage de la BDD.
-      if ($this->degats >= 100) {
+      if ($this->getDegats() >= 100) {
         return self::PERSONNAGE_TUE;
       }
       

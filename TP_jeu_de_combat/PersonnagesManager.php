@@ -67,6 +67,7 @@ class PersonnagesManager
   public function getList($nom)
   {
   	$persos = [];
+  	var_dump($nom);
   	$req = $this->db->prepare('SELECT id, nom, degats, timeEndormi, type, atout FROM personnages WHERE nom <> :nom ORDER BY nom');
   	$req->execute([':nom' => $nom]);
 
@@ -88,7 +89,7 @@ class PersonnagesManager
       $req = $this->db->prepare('UPDATE personnages SET degats = :degats, timeEndormi = :timeEndormi, atout = :atout WHERE id = :id');
     
       $req->bindValue(':degats', $perso->getDegats(), PDO::PARAM_INT);
-      $req->bindValue(':timeEndormi', $perso->timeEndormi(), PDO::PARAM_INT);
+      $req->bindValue(':timeEndormi', $perso->getTimeEndormi(), PDO::PARAM_INT);
       $req->bindValue(':atout', $perso->getAtout(), PDO::PARAM_INT);
       $req->bindValue(':id', $perso->getId(), PDO::PARAM_INT);
     

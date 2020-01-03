@@ -29,7 +29,7 @@ class News
    */
   public function __construct($valeurs = [])
   {
-    if (!empty($valeurs)) // Si on a spécifié des valeurs, alors on hydrate l'objet. {
+    if (!empty($valeurs)) { // Si on a spécifié des valeurs, alors on hydrate l'objet. 
       $this->hydrate($valeurs);
     }
   }
