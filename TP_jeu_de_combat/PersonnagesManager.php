@@ -10,16 +10,18 @@ class PersonnagesManager
 
   public function add(Personnages $perso)
   {
-  	$req = $this->db->prepare('INSERT INTO personnages(nom, degats, atout) VALUES(:nom, :degats, :atout)');
+  	$req = $this->db->prepare('INSERT INTO personnages(nom, degats, timeEndormi, type, atout) VALUES(:nom, :degats, :timeEndormi, :type, :atout)');
   	$req->bindValue(':nom', $perso->getNom());
     $req->bindValue(':type', $perso->getType());
   	$req->bindValue(':degats', 0);
+  	$req->bindValue(':timeEndormi', 0);
   	$req->bindValue(':atout', 0);
   	$req->execute();
 
   	$perso->hydrate([
   		'id' => $this->db->lastInsertId(),
   		'degats' => 0,
+  		'timeEndormi' => 0,
         'atout' => 0
   	]);
   }
@@ -67,7 +69,6 @@ class PersonnagesManager
   public function getList($nom)
   {
   	$persos = [];
-  	var_dump($nom);
   	$req = $this->db->prepare('SELECT id, nom, degats, timeEndormi, type, atout FROM personnages WHERE nom <> :nom ORDER BY nom');
   	$req->execute([':nom' => $nom]);
 
@@ -76,11 +77,8 @@ class PersonnagesManager
             case 'guerrier': $persos[] = new Guerrier($donnees); break;
             case 'magicien': $persos[] = new Magicien($donnees); break;
         }
-	  	var_dump($donnees['type']);
-  		var_dump($donnees['id']);
   	}
 
-  	var_dump($persos);
   	return $persos;
   }
 

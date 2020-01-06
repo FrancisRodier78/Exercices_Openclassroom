@@ -6,13 +6,13 @@
  */
 class News
 {
-  protected $erreurs = [],
-            $id,
-            $auteur,
-            $titre,
-            $contenu,
-            $dateAjout,
-            $dateModif;
+  protected $erreurs = [];
+  protected $id;
+  protected $auteur;
+  protected $titre;
+  protected $contenu;
+  protected $dateAjout;
+  protected $dateModif;
   
   /**
    * Constantes relatives aux erreurs possibles rencontrées lors de l'exécution de la méthode.
@@ -43,7 +43,6 @@ class News
   {
     foreach ($donnees as $attribut => $valeur)
     {
-      var_dump($attribut);
       $methode = 'set'.ucfirst($attribut);
       
       if (is_callable([$this, $methode])) {

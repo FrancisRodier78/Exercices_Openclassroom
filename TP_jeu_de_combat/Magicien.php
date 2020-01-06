@@ -1,33 +1,33 @@
 <?php
 class Magicien extends Personnages
 {
-    public function lancerUnSort(Personnage $perso)
+    public function lancerUnSort(Personnages $perso)
     {
-        if ($this->degats >= 0 && $this->degats <= 25) {
-          $this->atout = 4;
-        } elseif ($this->degats > 25 && $this->degats <= 50) {
-          $this->atout = 3;
-        } elseif ($this->degats > 50 && $this->degats <= 75) {
-          $this->atout = 2;
-        } elseif ($this->degats > 75 && $this->degats <= 90) {
-          $this->atout = 1;
+        if ($this->getDegats() >= 0 && $this->getDegats() <= 25) {
+          $this->setAtout(4);
+        } elseif ($this->getDegats() > 25 && $this->getDegats() <= 50) {
+          $this->setAtout(3);
+        } elseif ($this->getDegats() > 50 && $this->getDegats() <= 75) {
+          $this->setAtout(2);
+        } elseif ($this->getDegats() > 75 && $this->getDegats() <= 90) {
+          $this->setAtout(1);
         } else {
-          $this->atout = 0;
+          $this->setAtout(0);
         }
         
-        if ($perso->id == $this->id) {
+        if ($perso->getId() == $this->getId()) {
           return self::CEST_MOI;
         }
         
-        if ($this->atout == 0) {
+        if ($this->getAtout() == 0) {
           return self::PAS_DE_MAGIE;
         }
         
-        if ($this->estEndormi()) {
+        if ($this->getTimeEndormi()) {
           return self::PERSO_ENDORMI;
         }
         
-        $perso->timeEndormi = time() + ($this->atout * 6) * 3600;
+        $perso->setTimeEndormi(time() + ($this->getAtout() * 6) * 3600);
         
         return self::PERSONNAGE_ENSORCELE;
     }

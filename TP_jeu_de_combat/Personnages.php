@@ -1,12 +1,12 @@
 <?php
 class Personnages
 {
-	private $atout,
-			$id,
-            $degats,
-	        $nom,
-            $timeEndormi,
-            $type;
+	private $atout;
+	private	$id;
+    private $degats;
+	private $nom;
+    private $timeEndormi;
+    private $type;
 
 
 	const CEST_MOI = 1;

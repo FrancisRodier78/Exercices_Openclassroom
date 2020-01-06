@@ -11,7 +11,7 @@ session_start();
 if (isset($_GET['deconnexion'])) {
 	session_destroy();
 	header('Location . ');
-	exit();
+	//exit();
 }
 
 $db = new PDO('mysql:host=localhost;dbname=tp_jeu_de_combat', 'root', '');
@@ -19,7 +19,6 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 $manager = new PersonnagesManager($db);
 
-var_dump($_SESSION);
 if (isset($_SESSION['perso'])) {
   $perso = $_SESSION['perso'];
 }
@@ -64,7 +63,6 @@ elseif (isset($_GET['frapper'])) {
 			$message = 'Le personnage que vous voulez frapper n\'existe pas !';
 		} else {
 			$persoAFrapper = $manager->get((int) $_GET['frapper']);
-			var_dump($perso);
 			$retour = $perso->frapper($persoAFrapper);
 
 			switch ($retour) {
@@ -96,10 +94,10 @@ elseif (isset($_GET['frapper'])) {
 		if ($perso->getType() != 'magicien') {
 			$message = 'Seuls les magicien peuvent ensorceler des personnages !';
 		} else {
-			if (!$manager->exits((int) $_GET['ensorceleur'])) {
+			if (!$manager->exists((int) $_GET['ensorceler'])) {
 				$message = 'Le personnage que vous voulez ensorceler n\'existe pas !';
 			} else {
-				$persoAEnsorceler = $manager->get((int) $_GET['ensorceleur']);
+				$persoAEnsorceler = $manager->get((int) $_GET['ensorceler']);
 				$retour = $perso->lancerUnSort($persoAEnsorceler);
 
 				switch ($retour) {
@@ -119,9 +117,7 @@ elseif (isset($_GET['frapper'])) {
 						break;
 				}
 			}
-			
 		}
-		
 	}
 }
 ?>
@@ -176,7 +172,6 @@ if (empty($retourpersos)) {
 		echo 'Un magicien vous a endormi ! Vous allez vous réveiller dans ', $perso->reveil(), '.';
 	} else {
 		foreach ($retourpersos as $unPerso) {
-			var_dump($unPerso->getId());
 			echo '<a href="?frapper=', (int) $unPerso->getId(), '">', htmlspecialchars($unPerso->getNom()), '</a> (dégâts : ', $unPerso->getDegats(), ' | type : ', $unPerso->getType(), ')';
 
 			if ($perso->getType() == 'magicien') {
@@ -212,5 +207,4 @@ if (empty($retourpersos)) {
 if (isset($perso)) {
 	$_SESSION['perso'] = $perso;
 }
-var_dump($perso);
 ?>
